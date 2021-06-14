@@ -1,5 +1,9 @@
 # income-tracker
 
+An income-tracker tutorial with Vue 3 to shard my skills in this lovely framework. See the [Demo here](https://income-tracker-vue3.netlify.app/).
+
+Language: spanish (Español) - Currency: Peruvian New Sol (Nuevo Sol Peruano).
+
 ## Project setup
 ```
 npm install
