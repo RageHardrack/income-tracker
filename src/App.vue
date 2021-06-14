@@ -1,26 +1,64 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <Header :totalIncome="state.totalIncome" />
+  <Form @add-income="AddIncome" />
+  <IncomeList :state="state" />
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import { reactive, computed } from "vue";
+import Header from "./components/Header.vue";
+import Form from "./components/Form.vue";
+import IncomeList from "./components/IncomeList.vue";
 
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
-}
+  name: "App",
+  components: { Header, Form, IncomeList },
+  setup() {
+    const state = reactive({
+      income: [],
+      totalIncome: computed(() => {
+        let temp = 0;
+
+        if (state.income.length > 0) {
+          for (let i = 0; i < state.income.length; i++) {
+            temp += state.income[i].value;
+          }
+        }
+
+        return temp;
+      }),
+    });
+
+    const AddIncome = (data) => {
+      let d = data.date.split("-");
+      let newD = new Date(d[0], d[1], d[2]);
+
+      state.income = [
+        ...state.income,
+        {
+          id: Date.now(),
+          desc: data.desc,
+          value: parseInt(data.value),
+          date: newD.getTime(),
+        },
+      ];
+      console.log(state.income);
+    };
+
+    return { state, AddIncome };
+  },
+};
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Fira Sans", sans-serif;
+}
+
+body {
+  background: #eee;
 }
 </style>
